@@ -11,9 +11,12 @@ object SaveText {
   val coll = db("crawler")
 
   def main(args: Array[String]): Unit = {
-    val writer = new PrintWriter(new File("test.txt" ))
+    val writer = new PrintWriter(new File("test.txt"))
     coll.find()
-    for { x <- coll } yield writer.append(x.get("comment").toString+"\r\n")
+    for {
+      x <- coll
+      y=x.get("comment").toString.replaceAll("&mdash;","~").replaceAll("&hellip;","……")
+    } yield println(y)
     writer.close()
 
   }
